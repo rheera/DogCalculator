@@ -3,25 +3,34 @@ from datetime import date, timedelta
 
 
 def calculate_age_days():
+    """Takes user input for day, month, and year and returns the users age in days"""
     birthday = input()
     birthmonth = input()
     birthyear = input()
     born = date(int(birthyear), int(birthmonth), int(birthday))
     today = date.today()
-    # return today.year - dog_born.year - ((today.month, today.day) < (dog_born.month, dog_born.day))
     age = today - born
     return age.days
 
 
 def dog_to_human(dog_age):
+    """Takes dogs age in days as input and converts it into the equivalent human age in days"""
     # ln(x) = log(x, e)
-    # human_age = (16 * (math.log(int(dog_age), math.e))) + 31
-    # y = -0.0289x2 + 5.1455x + 11.902 another dog equation made in excel from plotting medium dog conversion
-    # y = -2E-11x4 + 3E-07x3 - 0.0013x2 + 7.2079x + 3404.8 same formula but in days
-    # human_age = (-0.0289 * float(dog_age) ** 2) + (5.1455 * float(dog_age)) + 11.902
-    human_age = ((-2 * (10 ** -11)) * (float(dog_age) ** 4)) + ((3 * (10 ** -7)) * (float(dog_age) ** 3)) - (0.0013 * (float(dog_age) ** 2)) + (7.2079 * float(dog_age)) + 3404.8
-    return human_age
-
+    # human_age = (16 * (math.log(int(dog_age), math.e))) + 31 known best dog age formula
+    # y = 8E-15x6 - 6E-11x5 + 1E-07x4 - 0.0002x3 + 0.0764x2 + 2.3013x - 16.923 equation for 0 - 6 years old
+    # y = 4.5x + 5566.3 equation for 6 - 30 years old
+    if dog_age < 0:
+        print("Dog age must be greater than 0")
+        return -1
+    elif dog_age > 0 and dog_age < 2191.455:
+        human_age = ((8 * (10 ** -15)) * (float(dog_age) ** 6)) - ((6 * (10 ** -11)) * (float(dog_age) ** 5)) + ((1 * (10 ** -7)) * (float(dog_age) ** 4)) - (0.0002 * (float(dog_age) ** 3)) + (0.0764 * (float(dog_age) ** 2)) + (2.3013 * (float(dog_age))) - 16
+        return human_age
+    elif dog_age >= 2191.455 and dog_age < 10957.275:
+        human_age = (4.5 * float(dog_age)) + 5566.3
+        return human_age
+    else:
+        print("Dog age must be less than 30 years old")
+        return -1
 
 #print(dog_to_human())
 #print(dog_date_to_years())
