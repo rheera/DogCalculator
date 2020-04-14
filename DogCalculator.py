@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 from numpy import roots, polyval
 
 def calculate_age_days():
@@ -34,11 +34,36 @@ def dog_to_human(dog_age):
         print("Dog age must be less than 30 years old")
         return -1
 
+def x_vertex(a, b):
+    xcoord = - b / (2 * a)
+    return xcoord
 
-def dog_human_intersect(human_age, dog_age):
-    intersect = (human_age - dog_to_human(dog_age) - 5566.3) / 3.5
 
-    return intersect
+def dog_human_intersect(human_age, dog_human_age):
+    # polynomial ax^2 + bx + c
+    # a
+    a = -0.0001
+    b = 5.2952
+    c = human_age - dog_human_age
+    # our equation has ax^2 + bx = c so we need to do -c
+    xroots = roots([-0.0001, 5.2952, -c])
+    # the only root we want is the x value before the peak of the parabola
+    xvert = x_vertex(a, b)
+    for root in xroots:
+        if root < xvert:
+            return root
+        else:
+            continue
+    return -1
+
+def dog_human_date(intersect, human_age, dog_age):
+    today = date.today()
+    same_age_date = today + timedelta(days=intersect)
+    dog_new_age = dog_age + intersect
+    human_new_age = human_age + intersect
+    print("Your dog will be ", dog_new_age/365.2425, " years old")
+    print("You will be ", human_new_age/365.2425, " years old")
+    return same_age_date
 
 #print(dog_to_human())
 #print(dog_date_to_years())
@@ -46,5 +71,9 @@ dog_age = calculate_age_days()
 print(dog_age)
 dog_human_age = dog_to_human(dog_age)
 print(dog_human_age)
-intersect = dog_human_intersect(21900, dog_age)
+dog_human_age2 = dog_to_human(3805)
+print(dog_human_age2)
+intersect = dog_human_intersect(21900, dog_human_age)
 print(intersect)
+human_same_age = dog_human_date(intersect, 21900, dog_age)
+print(human_same_age)

@@ -6,7 +6,7 @@ def x_vertex(a, b):
 
 
 ans = roots([-0.0001, 5.2952, -6457])
-vert = x_vertex(-0.0001, 5.2952, -6457)
+vert = x_vertex(-0.0001, 5.2952)
 print("the x vert is: ",  vert)
 for value in ans:
     print(value)
